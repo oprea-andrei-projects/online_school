@@ -91,6 +91,23 @@ class CourseServiceTest {
 
     }
 
+    @Test
+    void test_hasEnrollment(){
+
+        Course c2 = new Course("name2", "dep2");
+        c2.setId(1L);
+        User u = new User("username","ulastname","mail@mail.com","pass",20);
+        u.setId(2L);
+        c2.addUser(u);
+
+        when(courseRepo.findById(1L)).thenReturn(Optional.of(c2));
+        when(userRepo.findById(2L)).thenReturn(Optional.of(u));
+        when(courseRepo.enroledCourses(1L)).thenReturn(c2.getUsers());
+
+        assertEquals(c2.getUsers().size(),1);
+
+    }
+
 
 
 

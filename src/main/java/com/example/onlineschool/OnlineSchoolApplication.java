@@ -55,7 +55,7 @@ public class OnlineSchoolApplication {
 
 //            courseService.getAllCourses().stream().forEach(System.out::println);
 
-            System.out.println(userService.studentHasEnrolment(8L,5L));
+
 
 
 

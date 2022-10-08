@@ -8,6 +8,7 @@ import com.example.onlineschool.models.Course;
 import com.example.onlineschool.repo.CourseRepo;
 import com.example.onlineschool.repo.UserRepo;
 import com.example.onlineschool.service.CourseService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -55,21 +56,61 @@ class CourseControllerTest {
     private CourseService courseService;
 
     @Autowired
-    private MockMvc restMockMvc;
+    private MockMvc mockMvc;
 
     @Test
-    void test_getAllCourses(){
+    void test_getAllCourses() throws Exception {
         List<Course>list = new ArrayList<>();
         Course c2 = new Course("name2", "dep2");
-        c2.setId(1L);
+//        c2.setId(1L);
         list.add(c2);
 
         when(courseService.getAllCourses()).thenReturn(list);
-        ObjectMapper objectMapper = new ObjectMapper();
+        ObjectMapper mapper = new ObjectMapper();
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/allCourses")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect( content().string(mapper.writeValueAsString(list)));
+
+    }
+
+    @Test
+    void test_addACourse() throws Exception {
+        Course c2 = new Course("name2", "dep2");
+        c2.setId(2L);
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/addACourse",c2)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(c2)))
+                .andExpect(status().isOk());
+
+
+    }
+
+    @Test
+    void test_deleteCourse() throws Exception {
+
+        Course c2 = new Course("name2", "dep2");
+        c2.setId(2L);
+
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/addACourse",c2.getId())
+                        .contentType(MediaType.APPLICATION_JSON))
+                        .andExpect(status().isOk());
+
+
+    }
 
 
 
 
+    public static String asJsonString(final Object obj) throws JsonProcessingException {
+        try{
+            return new ObjectMapper().writeValueAsString(obj);
+
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
     }
 
 }
