@@ -35,7 +35,7 @@ public class Book {
             nullable = false,
             columnDefinition = "TEXT"
     )
-    @NotEmpty(message = "Title must be filled !")
+//    @NotEmpty(message = "Title must be filled !")
     String title;
 
     @Column(
@@ -44,7 +44,7 @@ public class Book {
             nullable = false,
             columnDefinition = "DATE"
     )
-    @NotEmpty(message = "Date must be specified !")
+//    @NotEmpty(message = " Date must be specified !")
     LocalDate created_at;
 
 
@@ -64,6 +64,14 @@ public class Book {
         this.title = title;
         this.created_at = created_at;
 
+    }
+
+    @Override
+    public boolean equals(Object o){
+
+        Book b = (Book) o;
+
+        return this.title.equals(b.title);
     }
 
     @Override

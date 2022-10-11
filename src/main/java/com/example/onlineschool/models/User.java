@@ -95,6 +95,8 @@ public class User {
         b.setUser(this);
     }
 
+
+
     @ManyToMany(cascade = CascadeType.ALL)
     @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(name = "enrolled_courses",

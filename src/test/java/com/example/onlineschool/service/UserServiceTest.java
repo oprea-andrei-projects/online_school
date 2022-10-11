@@ -2,6 +2,7 @@ package com.example.onlineschool.service;
 
 import com.example.onlineschool.models.Course;
 import com.example.onlineschool.models.User;
+import com.example.onlineschool.repo.BookRepo;
 import com.example.onlineschool.repo.CourseRepo;
 import com.example.onlineschool.repo.UserRepo;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,6 +29,9 @@ class UserServiceTest {
     @Mock
     private UserRepo userRepo;
 
+    @Mock
+    private BookRepo bookRepo;
+
     @Captor
     private ArgumentCaptor<Course> courseArgumentCaptor;
     @Captor
@@ -40,7 +44,7 @@ class UserServiceTest {
     void setUp(){
 
         MockitoAnnotations.openMocks(this);
-        underTest = new UserService(userRepo,courseRepo);
+        underTest = new UserService(userRepo,courseRepo, bookRepo);
     }
 
 
@@ -112,10 +116,9 @@ class UserServiceTest {
 
         assertEquals(u.getCourses().size(),0);
 
-
-
-
     }
+
+
 
 
 

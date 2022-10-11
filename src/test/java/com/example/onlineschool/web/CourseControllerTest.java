@@ -80,7 +80,7 @@ class CourseControllerTest {
         Course c2 = new Course("name2", "dep2");
         c2.setId(2L);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/addACourse",c2)
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/addACourse")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(c2)))
                 .andExpect(status().isOk());
@@ -94,10 +94,9 @@ class CourseControllerTest {
         Course c2 = new Course("name2", "dep2");
         c2.setId(2L);
 
-        mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/addACourse",c2.getId())
+        mockMvc.perform(MockMvcRequestBuilders.delete(String.format("/api/v1/deleteCourse?id=%d",2L))
                         .contentType(MediaType.APPLICATION_JSON))
                         .andExpect(status().isOk());
-
 
     }
 
