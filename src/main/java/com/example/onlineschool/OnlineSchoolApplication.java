@@ -58,6 +58,10 @@ public class OnlineSchoolApplication {
 
 //            userService.addABook(1L,new Book("carte",LocalDate.now()));
 
+//            Book b = new Book("DasBook",LocalDate.now());
+//            b.setId(26L);
+//
+//            userService.updateBook(1L,b);
 
 
 

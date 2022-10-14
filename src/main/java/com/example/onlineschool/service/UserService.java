@@ -158,7 +158,6 @@ public class UserService {
 
     }
 
-
     public void addABook(Long id , Book b){
 
         Optional<User> userOptional = userRepo.findById(id);
@@ -177,7 +176,6 @@ public class UserService {
 
     }
 
-
     public void deleteTheBook(Long uid , Long bid){
 
         Optional<User> userOptional = userRepo.findById(uid);
@@ -195,6 +193,23 @@ public class UserService {
 
         userRepo.save(userOptional.get());
 
+
+    }
+
+    public void updateBook(Long uid, Book b){
+
+        Optional<User> userOptional = userRepo.findById(uid);
+        if(userOptional.isEmpty()){
+
+            throw new NoSuchIDFoundException(" User not found !!! ");
+        }
+
+        Optional<Book> optionalBook = bookRepo.findById(b.getId());
+
+        optionalBook.get().setTitle(b.getTitle());
+        optionalBook.get().setCreated_at(b.getCreated_at());
+
+        bookRepo.save(optionalBook.get());
 
     }
 

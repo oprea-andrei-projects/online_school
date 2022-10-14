@@ -4,6 +4,7 @@ import com.example.onlineschool.models.Book;
 import com.example.onlineschool.models.Course;
 import com.example.onlineschool.service.UserService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -69,6 +70,13 @@ public class UserController {
         userService.deleteTheBook(uid,bid);
         return new ResponseEntity<>(bid, HttpStatus.OK);
 
+    }
+
+    @PutMapping("/updateBook")
+    public ResponseEntity<Long> updateABook(@RequestParam Long uid, @RequestBody Book b){
+
+        userService.updateBook(uid,b);
+        return new ResponseEntity<>(b.getId(),HttpStatus.OK);
     }
 
 

@@ -1,5 +1,6 @@
 package com.example.onlineschool.service;
 
+import com.example.onlineschool.models.Book;
 import com.example.onlineschool.models.Course;
 import com.example.onlineschool.models.User;
 import com.example.onlineschool.repo.BookRepo;
@@ -10,12 +11,14 @@ import org.junit.jupiter.api.Test;
 import org.mockito.*;
 import org.springframework.test.context.TestPropertySource;
 
+import java.time.LocalDate;
 import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
 
 @TestPropertySource(
@@ -36,6 +39,9 @@ class UserServiceTest {
     private ArgumentCaptor<Course> courseArgumentCaptor;
     @Captor
     private ArgumentCaptor<User> userArgumentCaptor;
+
+    @Captor
+    private ArgumentCaptor<Book> bookArgumentCaptor;
 
     @InjectMocks
     private UserService underTest;
@@ -117,6 +123,64 @@ class UserServiceTest {
         assertEquals(u.getCourses().size(),0);
 
     }
+
+    @Test
+    void test_addBook(){
+
+        User u = new User("username","ulastname","mail@mail.com","pass",20);
+        u.setId(1L);
+        Book b = new Book("MyBook", LocalDate.of(2002,02,02));
+        List<Book> books = new ArrayList<>();
+
+        given(userRepo.findById(u.getId())).willReturn(Optional.of(u));
+        given(userRepo.bookList(u.getId())).willReturn(books);
+        given(Collections.frequency(books,b)).willReturn(0);
+
+        underTest.addABook(u.getId(),b);
+
+        then(userRepo).should().save(userArgumentCaptor.capture());
+        User u2 = userArgumentCaptor.getValue();
+        assertThat(u2).isEqualTo(u);
+    }
+
+    @Test
+    void test_deleteBook(){
+
+        User u = new User("username","ulastname","mail@mail.com","pass",20);
+        u.setId(1L);
+        Book b = new Book("MyBook", LocalDate.of(2002,02,02));
+        b.setId(2L);
+        b.setUser(u);
+
+        doReturn(Optional.of(b)).when(bookRepo).findById(2L);
+        doReturn(Optional.of(u)).when(userRepo).findById(1L);
+        underTest.deleteTheBook(u.getId(),b.getId());
+        then(userRepo).should().save(u);
+
+    }
+
+    @Test
+    void test_updateBook(){
+
+        User u = new User("username","ulastname","mail@mail.com","pass",20);
+        u.setId(1L);
+
+
+        Book b1 = new Book("MB2", LocalDate.of(2002,02,02));
+        b1.setId(2L);
+        Book b = new Book("MyBook", LocalDate.of(2002,02,02));
+        b.setId(b1.getId());
+        b.setUser(u);
+
+        doReturn(Optional.of(b)).when(bookRepo).findById(2L);
+        doReturn(Optional.of(u)).when(userRepo).findById(1L);
+
+        underTest.updateBook(u.getId(),b1);
+
+        assertThat(b.getTitle()).isEqualTo("MB2");
+    }
+
+
 
 
 

@@ -1,8 +1,10 @@
 package com.example.onlineschool.web;
 
 import com.example.onlineschool.OnlineSchoolApplication;
+import com.example.onlineschool.models.Book;
 import com.example.onlineschool.models.Course;
 import com.example.onlineschool.models.User;
+import com.example.onlineschool.repo.BookRepo;
 import com.example.onlineschool.repo.CourseRepo;
 import com.example.onlineschool.repo.UserRepo;
 import com.example.onlineschool.service.CourseService;
@@ -20,6 +22,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -40,6 +43,9 @@ class UserControllerTest {
 
     @MockBean
     private UserRepo userRepo;
+
+    @MockBean
+    private BookRepo bookRepo;
 
     @MockBean
     private CourseService courseService;
@@ -77,6 +83,39 @@ class UserControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
+
+    @Test
+    void addBook() throws Exception {
+
+        User u = new User("username","ulastname","mail@mail.com","pass",20);
+        u.setId(1L);
+        Book b = new Book("MyBook", LocalDate.of(2002,02,02));
+        when(userRepo.findById(1L)).thenReturn(Optional.of(u));
+
+        mockMvc.perform(MockMvcRequestBuilders.post(String.format("/api/v1/addBook?id=%d",1L))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(b)))
+                .andExpect(status().isOk());
+
+    }
+
+    @Test
+    void removeBook() throws Exception {
+        User u = new User("username","ulastname","mail@mail.com","pass",20);
+        u.setId(1L);
+        Book b = new Book("MyBook", LocalDate.of(2002,02,02));
+        b.setId(2L);
+
+        when(userRepo.findById(u.getId())).thenReturn(Optional.of(u));
+        when(bookRepo.findById(b.getId())).thenReturn(Optional.of(b));
+
+        mockMvc.perform(MockMvcRequestBuilders.delete(String.format("/api/v1/deleteBook?uid=%d&bid=%d",1L,2L))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+    }
+
+
 
     public static String asJsonString(final Object obj) throws JsonProcessingException {
         try{
