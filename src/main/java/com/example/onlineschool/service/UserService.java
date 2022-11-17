@@ -99,6 +99,32 @@ public class UserService {
 
     }
 
+    public void updateCourse(Long uid, Course c){
+
+        Optional<User> userOptional = userRepo.findById(uid);
+        Optional<Course> courseOptional = courseRepo.findById(c.getId());
+
+        if(userOptional.isEmpty()){
+
+            throw new NoSuchIDFoundException("No user found !!! ");
+        }
+        if(courseOptional.isEmpty()){
+
+            throw new NoSuchIDFoundException("No course found !!! ");
+        }
+        if(!studentHasEnrolment(uid, c.getId())){
+
+            throw new NoEnrolmentsException("You don't have access to this course !!!");
+        }
+
+        courseOptional.get().setName(c.getName());
+        courseOptional.get().setDepartment(c.getDepartment());
+
+        courseRepo.save(courseOptional.get());
+
+
+    }
+
     public void unenrollFromCourse(Long uid, Long cid){
 
         Optional<User> userOptional = userRepo.findById(uid);

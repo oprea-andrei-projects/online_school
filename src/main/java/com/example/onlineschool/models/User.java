@@ -104,7 +104,6 @@ public class User {
                     inverseJoinColumns = {@JoinColumn(name = "course_id")}
 
                   )
-
     @JsonManagedReference
     @JsonIgnore
     private List<Course> courses = new ArrayList<>();

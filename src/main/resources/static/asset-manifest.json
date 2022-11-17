@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/static/css/main.57a50fa7.css",
+    "main.js": "/static/js/main.e1fa6c4b.js",
+    "static/media/unu.jpg": "/static/media/unu.eecac936ff111d3073f6.jpg",
+    "index.html": "/index.html",
+    "main.57a50fa7.css.map": "/static/css/main.57a50fa7.css.map",
+    "main.e1fa6c4b.js.map": "/static/js/main.e1fa6c4b.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.57a50fa7.css",
+    "static/js/main.e1fa6c4b.js"
+  ]
+}

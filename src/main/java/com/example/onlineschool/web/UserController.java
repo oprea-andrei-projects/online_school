@@ -79,6 +79,14 @@ public class UserController {
         return new ResponseEntity<>(b.getId(),HttpStatus.OK);
     }
 
+    @PutMapping("/updateCourse")
+    public ResponseEntity<Long> updateACourse(@RequestParam Long uid, @RequestBody Course c){
+
+        userService.updateCourse(uid, c);
+
+        return new ResponseEntity<>(c.getId(), HttpStatus.OK);
+    }
+
 
 
 

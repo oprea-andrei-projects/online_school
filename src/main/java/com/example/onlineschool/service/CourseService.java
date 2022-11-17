@@ -27,7 +27,15 @@ public class CourseService {
 
     public List<Course> getAllCourses(){
 
-        return courseRepo.findAll();
+        List<Course> cursuri = courseRepo.findAll();
+
+        if(cursuri.isEmpty()){
+
+            throw new NoEnrolmentsException(" There are no Courses   !!! ");
+
+        }
+
+        return cursuri;
     }
 
     public void addCourse(Course c){
@@ -86,4 +94,6 @@ public class CourseService {
         courseRepo.delete(co.get());
 
     }
+
+
 }

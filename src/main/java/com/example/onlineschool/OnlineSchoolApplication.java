@@ -27,7 +27,7 @@ public class OnlineSchoolApplication {
 
     @Bean
     @Transactional
-    CommandLineRunner commandLineRunner(UserService userService){
+    CommandLineRunner commandLineRunner(UserService userService, CourseRepo courseRepo){
 
         return args -> {
 
@@ -62,6 +62,23 @@ public class OnlineSchoolApplication {
 //            b.setId(26L);
 //
 //            userService.updateBook(1L,b);
+//            Faker faker = new Faker();
+//
+//            for(int i=0; i<10; i++){
+//
+//                userRepo.save(new User(faker.name().firstName(),faker.name().lastName(), faker.internet().emailAddress(), faker.internet().password(),faker.number().numberBetween(20,60)));
+//            }
+//
+
+
+//            Faker faker = new Faker();
+//
+//            for (int i = 0; i < 10; i++) {
+//
+//                courseRepo.save(new Course(faker.company().profession(),faker.company().industry()));
+//
+//            }
+
 
 
 
